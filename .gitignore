@@ -4,6 +4,5 @@ part1/courseinfo/node_modules
 part2/courseinfo/node_modules
 part2/countries/node_modules
 part2/phonebook/node_modules
-part3/phonebook-backend/node_modules
-part3/phonebook-backend/.env
-part3/phonebook-backend/.git
+part3/phonebook-backend-submit/node_modules
+part3/phonebook-backend-submit/.env
