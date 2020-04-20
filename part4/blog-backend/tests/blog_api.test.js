@@ -75,6 +75,19 @@ test('blog added without title and url', async () => {
   await api.post('/api/blogs').send(newBlog).expect(400)
 })
 
+test('delete blog', async () => {
+  const blogs = await helper.blogInDb()
+  const firstOfBlogs = blogs[0]
+
+  await api.delete(`/api/blogs/${firstOfBlogs.id}`).expect(204)
+
+  const finalBlogs = await helper.blogInDb()
+  expect(finalBlogs).toHaveLength(helper.initialBlogs.length - 1)
+
+  const contents = finalBlogs.map((f) => f.title)
+  expect(contents).not.toContain(contents)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
