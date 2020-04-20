@@ -88,6 +88,31 @@ test('delete blog', async () => {
   expect(contents).not.toContain(contents)
 })
 
+test('update blog', async () => {
+  const blogs = await helper.blogInDb()
+  const firstOfBlogs = blogs[0]
+
+  const newBlog = {
+    title: 'My First Article',
+    author: 'Fathi',
+    url: 'http://localhost:3003/blogs/1',
+    likes: 5,
+  }
+
+  await api
+    .put(`/api/blogs/${firstOfBlogs.id}`)
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogInDb()
+
+  const blogsUpdated = blogsAtEnd.find((b) => b.id === firstOfBlogs.id)
+  delete blogsUpdated.id
+
+  expect(blogsUpdated).toEqual(newBlog)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

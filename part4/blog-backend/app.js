@@ -1,6 +1,6 @@
 const config = require('./utils/config')
 const express = require('express')
-require('express-async-error')
+require('express-async-errors')
 const app = express()
 const cors = require('cors')
 const middleware = require('./utils/middleware')
@@ -8,6 +8,7 @@ const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
 
+mongoose.set('useFindAndModify')
 mongoose
   .connect(config.MONGODB_URI, {
     useNewUrlParser: true,
