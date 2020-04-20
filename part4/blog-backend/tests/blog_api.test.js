@@ -5,9 +5,14 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 
-//beforeEach(() => {
+beforeEach(async () => {
+  await Blog.deleteMany({})
 
-//})
+  for (let blog of helper.initialBlogs) {
+    let blogObject = new Blog(blog)
+    await blogObject.save()
+  }
+})
 
 test('a blogs return list of json data', async () => {
   await api
@@ -17,11 +22,11 @@ test('a blogs return list of json data', async () => {
 })
 
 test('a blogs have unique identifier as id', async () => {
-  const res = await Blog.find({})
+  const res = await helper.blogInDb()
 
-  const blogs = res.map((r) => r.toJSON().id)
+  const blogsId = res.map((r) => r.id)
 
-  expect(blogs).toBeDefined()
+  expect(blogsId).toBeDefined()
 })
 
 afterAll(() => {
