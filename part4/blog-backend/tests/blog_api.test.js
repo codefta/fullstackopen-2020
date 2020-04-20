@@ -66,6 +66,15 @@ test('blog added without likes property', async () => {
   expect(blog.body.likes).toBe(0)
 })
 
+test('blog added without title and url', async () => {
+  const newBlog = {
+    author: 'Fathi',
+    likes: 4,
+  }
+
+  await api.post('/api/blogs').send(newBlog).expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
