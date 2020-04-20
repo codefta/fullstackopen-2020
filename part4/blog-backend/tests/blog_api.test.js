@@ -34,7 +34,7 @@ test('verify that blogs can send POST request', async () => {
     title: 'My test Article',
     author: 'Fathi',
     url: 'http://locahost:3003/test',
-    like: 4,
+    likes: 4,
   }
 
   await api
@@ -48,6 +48,22 @@ test('verify that blogs can send POST request', async () => {
 
   const blogsTitle = blogsAtEnd.map((b) => b.title)
   expect(blogsTitle).toContain('My test Article')
+})
+
+test('blog added without likes property', async () => {
+  const newBlog = {
+    title: 'My test Article',
+    author: 'Fathi',
+    url: 'http://locahost:3003/test',
+  }
+
+  const blog = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  expect(blog.body.likes).toBe(0)
 })
 
 afterAll(() => {
