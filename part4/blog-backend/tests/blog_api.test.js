@@ -16,6 +16,14 @@ test('a blogs return list of json data', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
+test('a blogs have unique identifier as id', async () => {
+  const res = await Blog.find({})
+
+  const blogs = res.map((r) => r.toJSON().id)
+
+  expect(blogs).toBeDefined()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
