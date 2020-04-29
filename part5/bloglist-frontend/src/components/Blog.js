@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-const Blog = ({ blog, handleLike, handleDelete }) => {
+const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -8,21 +8,16 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
     marginBottom: 5,
   }
   const [visible, setVisible] = useState(false)
-  const [user, setUser] = useState(null)
+  // const [userBlog, setUserBlog] = useState(null)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
 
-  useEffect(() => {
-    const userLoad = blog.user
-    if (userLoad) {
-      setUser(userLoad)
-    }
-  }, [blog.user])
-
   const toggleVisibility = () => {
     setVisible(!visible)
   }
+
+  const deleteButton = { display: user.username === blog.user.name }
 
   return (
     <div style={blogStyle}>
@@ -39,8 +34,10 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
         <div>
           {blog.likes} <button onClick={handleLike}>like</button>
         </div>
-        <div>{user ? user.name : ''}</div>
-        <button onClick={handleDelete}>remove</button>
+        <div>{blog.user.name}</div>
+        <button style={deleteButton} onClick={handleDelete}>
+          remove
+        </button>
       </div>
     </div>
   )
