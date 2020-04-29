@@ -121,7 +121,7 @@ const App = () => {
 
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       try {
-        const deletedBlog = await blogService.remove(id)
+        await blogService.remove(id)
 
         setBlogs(blogs.filter((b) => b.id !== id))
         setMessage(`blog ${blog.title} by ${blog.author} deleted`)

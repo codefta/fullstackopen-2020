@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const blogStyle = {
     paddingTop: 10,
@@ -8,7 +8,6 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
     marginBottom: 5,
   }
   const [visible, setVisible] = useState(false)
-  // const [userBlog, setUserBlog] = useState(null)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
