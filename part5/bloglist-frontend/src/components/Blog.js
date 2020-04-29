@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleDelete }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -40,6 +40,7 @@ const Blog = ({ blog, handleLike }) => {
           {blog.likes} <button onClick={handleLike}>like</button>
         </div>
         <div>{user ? user.name : ''}</div>
+        <button onClick={handleDelete}>remove</button>
       </div>
     </div>
   )

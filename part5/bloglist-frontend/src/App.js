@@ -109,11 +109,31 @@ const App = () => {
     try {
       const updatedBlog = await blogService.update(id, object)
 
-      console.log(updatedBlog)
-
       setBlogs(blogs.map((b) => (b.id === id ? updatedBlog : b)))
     } catch (exception) {
       console.log(exception)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    const blog = blogs.find((b) => b.id === id)
+    console.log(blog)
+
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      try {
+        const deletedBlog = await blogService.remove(id)
+
+        setBlogs(blogs.filter((b) => b.id !== id))
+        setMessage(`blog ${blog.title} by ${blog.author} deleted`)
+        setMessageType('success')
+
+        setTimeout(() => {
+          setMessage(null)
+          setMessageType(null)
+        }, 5000)
+      } catch (exception) {
+        console.log(exception)
+      }
     }
   }
 
@@ -177,6 +197,7 @@ const App = () => {
             key={blog.id}
             blog={blog}
             handleLike={() => handleLike(blog.id)}
+            handleDelete={() => handleDelete(blog.id)}
           />
         ))}
     </div>
