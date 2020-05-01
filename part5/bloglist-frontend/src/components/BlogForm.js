@@ -1,15 +1,47 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+// import PropTypes from 'prop-typess'
 
 const BlogForm = ({
-  handleSubmit,
-  handleChangeTitle,
-  handleChangeAuthor,
-  handleChangeUrl,
-  title,
-  author,
-  url,
+  createBlog,
+  // handleSubmit,
+  // handleChangeTitle,
+  // handleChangeAuthor,
+  // handleChangeUrl,
+  // title,
+  // author,
+  // url,
 }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const handleChangeTitle = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const handleChangeAuthor = (event) => {
+    setAuthor(event.target.value)
+  }
+
+  const handleChangeUrl = (event) => {
+    setUrl(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    createBlog({
+      title: title,
+      author: author,
+      url: url,
+      likes: 0,
+    })
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
   return (
     <div>
       <h2>create new</h2>
@@ -17,6 +49,7 @@ const BlogForm = ({
         <div>
           title
           <input
+            id="title"
             type="text"
             value={title}
             name="Title"
@@ -26,6 +59,7 @@ const BlogForm = ({
         <div>
           author
           <input
+            id="author"
             type="text"
             value={author}
             name="Author"
@@ -35,6 +69,7 @@ const BlogForm = ({
         <div>
           url
           <input
+            id="url"
             type="text"
             value={url}
             name="Url"
@@ -47,14 +82,14 @@ const BlogForm = ({
   )
 }
 
-BlogForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  handleChangeAuthor: PropTypes.func.isRequired,
-  handleChangeTitle: PropTypes.func.isRequired,
-  handleChangeUrl: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-}
+// BlogForm.propTypes = {
+//   handleSubmit: PropTypes.func.isRequired,
+//   handleChangeAuthor: PropTypes.func.isRequired,
+//   handleChangeTitle: PropTypes.func.isRequired,
+//   handleChangeUrl: PropTypes.func.isRequired,
+//   title: PropTypes.string.isRequired,
+//   author: PropTypes.string.isRequired,
+//   url: PropTypes.string.isRequired,
+// }
 
 export default BlogForm
