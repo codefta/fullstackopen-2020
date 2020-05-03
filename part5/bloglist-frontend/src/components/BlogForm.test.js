@@ -25,7 +25,6 @@ describe('<BlogForm /> test block', () => {
     })
 
     fireEvent.submit(form)
-    console.log(handleSubmit.mock.calls[0][0])
 
     expect(handleSubmit.mock.calls[0][0].title).toBe('new blog for test')
     expect(handleSubmit.mock.calls[0][0].author).toBe('Muhammad Fathi')
