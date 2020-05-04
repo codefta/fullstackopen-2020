@@ -44,11 +44,11 @@ Cypress.Commands.add('createUser', function ({ name, username, password }) {
   cy.visit('http://localhost:3000')
 })
 
-Cypress.Commands.add('createBlog', function ({ title, author, url }) {
+Cypress.Commands.add('createBlog', function ({ title, author, url, likes }) {
   cy.request({
     url: 'http://localhost:3003/api/blogs',
     method: 'POST',
-    body: { title, author, url },
+    body: { title, author, url, likes },
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('loggedBloglistappUser')).token
