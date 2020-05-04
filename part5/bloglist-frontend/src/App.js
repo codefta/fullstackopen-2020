@@ -111,7 +111,6 @@ const App = () => {
 
   const handleDelete = async (id) => {
     const blog = blogs.find((b) => b.id === id)
-    console.log(blog)
 
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       try {
