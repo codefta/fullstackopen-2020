@@ -52,5 +52,36 @@ describe('Blog app', function () {
       cy.get('.notif').should('have.css', 'border-style', 'solid')
       cy.get('.notif').should('have.css', 'border-color', 'rgb(0, 128, 0)')
     })
+
+    describe('when blog post was created', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'Blog End User Test 2',
+          author: 'Tester',
+          url: 'http://localhost:3003/blogtest/2',
+        })
+
+        cy.createBlog({
+          title: 'Blog End User Test 3',
+          author: 'Tester',
+          url: 'http://localhost:3003/blogtest/3',
+        })
+
+        cy.createBlog({
+          title: 'Blog End User Test 4',
+          author: 'Tester',
+          url: 'http://localhost:3003/blogtest/4',
+        })
+      })
+
+      it('like blog post', function () {
+        cy.contains('Blog End User Test 2').parent().find('button').as('button')
+        cy.get('@button').click()
+        cy.get('@button').should('contain', 'view')
+
+        cy.contains('like').click()
+        cy.contains('1')
+      })
+    })
   })
 })
