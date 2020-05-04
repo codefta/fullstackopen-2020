@@ -34,4 +34,23 @@ describe('Blog app', function () {
       cy.get('.notif').should('have.css', 'border-color', 'rgb(255, 0, 0)')
     })
   })
+
+  describe('when logged in', function () {
+    beforeEach(function () {
+      cy.login({ username: 'tester', password: 'tester123' })
+    })
+
+    it('a blog can be created', function () {
+      cy.contains('new blog').click()
+      cy.get('#title').type('Blog End User Test 1')
+      cy.get('#author').type('Tester')
+      cy.get('#url').type('http://localhost:3003/blogtest/1')
+      cy.get('#create-blog').click()
+
+      cy.get('.notif').should('contain', 'Blog End User Test 1')
+      cy.get('.notif').should('have.css', 'color', 'rgb(0, 128, 0)')
+      cy.get('.notif').should('have.css', 'border-style', 'solid')
+      cy.get('.notif').should('have.css', 'border-color', 'rgb(0, 128, 0)')
+    })
+  })
 })
