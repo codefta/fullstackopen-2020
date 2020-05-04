@@ -16,7 +16,9 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
     setVisible(!visible)
   }
 
-  const deleteButton = { display: user.username === blog.user.name }
+  const deleteButton = {
+    display: user.username === blog.user.username ? '' : 'none',
+  }
 
   return (
     <div style={blogStyle} className="blog-title">
@@ -36,7 +38,7 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
           {blog.likes} <button onClick={handleLike}>like</button>
         </div>
         <div>{blog.user.name}</div>
-        <button style={deleteButton} onClick={handleDelete}>
+        <button id="delete-button" style={deleteButton} onClick={handleDelete}>
           remove
         </button>
       </div>

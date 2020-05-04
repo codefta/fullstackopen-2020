@@ -1,12 +1,12 @@
 describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    const userTester = {
-      name: 'Tester',
-      username: 'tester',
+    cy.createUser({ name: 'Tester', username: 'tester', password: 'tester123' })
+    cy.createUser({
+      name: 'Tester2',
+      username: 'tester2',
       password: 'tester123',
-    }
-    cy.request('POST', 'http://localhost:3003/api/users', userTester)
+    })
     cy.visit('http://localhost:3000')
   })
 
@@ -81,6 +81,33 @@ describe('Blog app', function () {
 
         cy.contains('like').click()
         cy.contains('1')
+      })
+
+      it('user that created blog can delete it', function () {
+        cy.contains('Blog End User Test 2').parent().find('button').as('button')
+        cy.get('@button').click()
+        cy.get('@button').should('contain', 'view')
+
+        cy.contains('remove').click()
+
+        cy.get('.notif').should('contain', 'Blog End User Test 2')
+        cy.get('.notif').should('have.css', 'color', 'rgb(0, 128, 0)')
+        cy.get('.notif').should('have.css', 'border-style', 'solid')
+        cy.get('.notif').should('have.css', 'border-color', 'rgb(0, 128, 0)')
+      })
+
+      it('user that did nott created blog cannot delete it', function () {
+        cy.contains('logout').click()
+
+        cy.get('#username').type('tester2')
+        cy.get('#password').type('tester123')
+        cy.get('#login-button').click()
+
+        cy.contains('Blog End User Test 2').parent().find('button').as('button')
+        cy.get('@button').click()
+        cy.get('@button').should('contain', 'view')
+
+        cy.get('#delete-button').should('have.css', 'display', 'none')
       })
     })
   })
