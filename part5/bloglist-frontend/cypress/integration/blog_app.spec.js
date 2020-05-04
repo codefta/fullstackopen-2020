@@ -145,6 +145,14 @@ describe('Blog app', function () {
           .get('#delete-button')
           .should('have.css', 'display', 'none')
       })
+
+      it('look ordered blog by most likes', function () {
+        cy.get('.blog-content').then((elements) => {
+          cy.wrap(elements[0]).should('contain', 'Blog End User Test 4')
+          cy.wrap(elements[1]).should('contain', 'Blog End User Test 3')
+          cy.wrap(elements[2]).should('contain', 'Blog End User Test 2')
+        })
+      })
     })
   })
 })
