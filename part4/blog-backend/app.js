@@ -32,6 +32,8 @@ app.use(
 app.use(express.json())
 app.use(middleware.tokenExtractor)
 
+console.log(process.env.NODE_ENV)
+
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing')
   app.use('/api/testing', testingRouter)

@@ -28,7 +28,11 @@ const Notification = ({ messageType, message }) => {
   if (message === null) {
     return null
   } else {
-    return <div style={messageStyle}>{message}</div>
+    return (
+      <div className="notif" style={messageStyle}>
+        {message}
+      </div>
+    )
   }
 }
 
