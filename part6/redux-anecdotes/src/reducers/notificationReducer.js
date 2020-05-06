@@ -4,15 +4,24 @@ const notificationReducer = (state = null, action) => {
       return action.data.message
     case 'FAIL':
       return state
+    case 'RESET':
+      return action.data
     default:
       return state
   }
 }
 
-export const addNotification = (message) => {
+export const addNotification = (messageType, message) => {
   return {
     type: 'SUCCESS',
-    data: { message },
+    data: { messageType, message },
+  }
+}
+
+export const removeNotification = () => {
+  return {
+    type: 'RESET',
+    data: null,
   }
 }
 
