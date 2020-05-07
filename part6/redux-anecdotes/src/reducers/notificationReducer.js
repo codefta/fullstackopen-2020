@@ -1,9 +1,7 @@
 const notificationReducer = (state = null, action) => {
   switch (action.type) {
-    case 'SUCCESS':
+    case 'SET_NOTIF':
       return action.data.message
-    case 'FAIL':
-      return state
     case 'RESET':
       return action.data
     default:
@@ -11,10 +9,16 @@ const notificationReducer = (state = null, action) => {
   }
 }
 
-export const addNotification = (messageType, message) => {
-  return {
-    type: 'SUCCESS',
-    data: { messageType, message },
+export const addNotification = (message, timeout) => {
+  return async (dispatch) => {
+    await dispatch({
+      type: 'SET_NOTIF',
+      data: { message },
+    })
+
+    setTimeout(() => {
+      removeNotification()
+    }, timeout * 1000)
   }
 }
 
