@@ -11,10 +11,10 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    anecdoteService.getAll().then(anecdotes => {
+    anecdoteService.getAll().then((anecdotes) => {
       dispatch(initAnecdotes(anecdotes))
     })
-  })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
