@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
@@ -16,13 +16,11 @@ const Anecdote = ({ anecdote, handleClick }) => {
 }
 
 const AnecdoteList = (props) => {
-  const dispatch = useDispatch()
-
   const vote = (id) => {
     props.voteAnecdote(id)
     const anecdote = props.anecdotes.find((a) => a.id === id)
 
-    dispatch(setNotification(`you voted '${anecdote.content}'`, 5))
+    props.setNotification(`you voted '${anecdote.content}'`, 5)
   }
 
   return (
@@ -60,6 +58,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     voteAnecdote: (id) => {
       dispatch(voteAnecdote(id))
+    },
+    setNotification: (message, timeout) => {
+      dispatch(setNotification(message, timeout))
     },
   }
 }
