@@ -113,17 +113,35 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input
+            value={content.value}
+            type={content.type}
+            onChange={content.onChange}
+          />
         </div>
         <div>
           author
-          <input {...author} />
+          <input
+            value={author.value}
+            type={author.type}
+            onChange={author.onChange}
+          />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input value={info.value} type={info.type} onChange={info.onChange} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button
+          type="button"
+          onClick={() => {
+            content.reset()
+            author.reset()
+            info.reset()
+          }}
+        >
+          reset
+        </button>
       </form>
     </div>
   )
@@ -187,7 +205,7 @@ const App = () => {
         </Route>
         <Route path="/create">
           {notification ? (
-            <Redirect to="/" />
+            <Redirect to="/anecdotes" />
           ) : (
             <CreateNew addNew={addNew} setNotif={setNotif} />
           )}
@@ -195,8 +213,11 @@ const App = () => {
         <Route path="/anecdotes/:id">
           <Anecdote anecdote={anecdote} />
         </Route>
-        <Route path="/">
+        <Route path="/anecdotes">
           <Notification notification={notification} />
+          <AnecdoteList anecdotes={anecdotes} />
+        </Route>
+        <Route path="/">
           <AnecdoteList anecdotes={anecdotes} />
         </Route>
       </Switch>
