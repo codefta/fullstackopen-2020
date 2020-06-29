@@ -18,6 +18,7 @@ export const ALL_BOOKS = gql`
         name
       }
       published
+      genres
     }
   }
 `
@@ -38,6 +39,7 @@ export const NEW_BOOK = gql`
       title
       author
       published
+      genres
     }
   }
 `

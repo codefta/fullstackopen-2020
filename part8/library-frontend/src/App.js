@@ -32,6 +32,7 @@ const App = () => {
         {token ? (
           <span>
             <button onClick={() => setPage('add')}>add book</button>
+            <button onClick={() => setPage('recommend')}>recommend</button>
             <button onClick={logout}>logout</button>
           </span>
         ) : (
