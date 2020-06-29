@@ -91,7 +91,7 @@ const resolvers = {
     name: (root) => root.name,
     born: (root) => root.born,
     bookCount: async (root) => {
-      const books = await Books.find({ author: root._id })
+      const books = await Book.find({ author: root._id })
 
       return books.length
     },
