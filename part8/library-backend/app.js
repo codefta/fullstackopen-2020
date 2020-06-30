@@ -88,7 +88,18 @@ const resolvers = {
 
       return Book.find({ genres: { $in: args.genre } })
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: async () => {
+      const authors = await Author.find({})
+      return authors.map(async (a) => {
+        const books = await Book.find({ author: a._id })
+        return {
+          _id: a._id,
+          name: a.name,
+          born: a.born,
+          bookCount: books.length,
+        }
+      })
+    },
     me: (root, args, context) => {
       return context.currentUser
     },
@@ -107,11 +118,6 @@ const resolvers = {
   Author: {
     name: (root) => root.name,
     born: (root) => root.born,
-    bookCount: async (root) => {
-      const books = await Book.find({ author: root._id })
-
-      return books.length
-    },
   },
   Mutation: {
     addBook: async (root, args, context) => {
