@@ -4,6 +4,8 @@ const Author = require('./models/author')
 const User = require('./models/user')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
 
 const JWT_SECRET = 'mySecret'
 
@@ -50,6 +52,10 @@ const typeDefs = gql`
     value: String!
   }
 
+  type Subscription {
+    bookAdded: Book!
+  }
+
   type Query {
     bookCount: Int!
     authorCount: Int!
@@ -92,7 +98,6 @@ const resolvers = {
       const books = await Book.findOne({ author: root.author }).populate(
         'author'
       )
-      console.log(books)
       return {
         name: books.author.name,
         born: books.author.born,
@@ -123,8 +128,6 @@ const resolvers = {
 
       const authorFinded = await Author.findOne({ name: args.author })
 
-      console.log(authorFinded)
-
       if (!authorFinded) {
         const author = new Author({
           name: args.author,
@@ -140,6 +143,9 @@ const resolvers = {
             invalidArgs: args,
           })
         }
+
+        pubsub.publish('BOOK_ADDED', { bookAdded: book })
+
         return book
       } else {
         book = new Book({ ...book, author: authorFinded._id })
@@ -150,7 +156,7 @@ const resolvers = {
             invalidArgs: args,
           })
         }
-        console.log(book)
+        pubsub.publish('BOOK_ADDED', { bookAdded: book })
         return book
       }
     },
@@ -201,6 +207,11 @@ const resolvers = {
       }
 
       return { value: jwt.sign(userForToken, JWT_SECRET) }
+    },
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED']),
     },
   },
 }
