@@ -75,12 +75,12 @@ const resolvers = {
   Query: {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
-    allBooks: (root, args) => {
+    allBooks: async (root, args) => {
       if (!args.genre) {
-        return Book.find({})
+        return await Book.find().populate('author')
       }
 
-      return Book.find({ genres: { $in: args.genre } })
+      return await Book.find({ genres: { $in: args.genre } }).populate('author')
     },
     allAuthors: () => Author.find({}),
     me: (root, args, context) => {
@@ -94,16 +94,6 @@ const resolvers = {
       const books = await Book.find({ author: root._id })
 
       return books.length
-    },
-  },
-  Book: {
-    author: async (root) => {
-      const book = await Book.findOne({ name: root.name }).populate('author')
-
-      return {
-        name: book.author.name,
-        born: book.author.born,
-      }
     },
   },
   Mutation: {
@@ -120,6 +110,8 @@ const resolvers = {
       }
 
       const authorFinded = await Author.findOne({ name: args.author })
+
+      console.log(authorFinded)
 
       if (!authorFinded) {
         const author = new Author({
@@ -146,6 +138,7 @@ const resolvers = {
             invalidArgs: args,
           })
         }
+        console.log(book)
         return book
       }
     },
